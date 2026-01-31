@@ -1,3 +1,16 @@
+# Core Requirements (for Days 1-2)
+# No external dependencies - pure Python
+
+# Visualization & Backend (Day 3)
 pygame>=2.5.0
+flask==2.3.2
+flask-cors==4.0.0
+
+# Optional: Data Analysis (Day 4)
 numpy>=1.24.0
 matplotlib>=3.7.0
+pandas==2.0.0
+
+# Development
+pytest==7.4.0
+pytest-cov==4.1.0

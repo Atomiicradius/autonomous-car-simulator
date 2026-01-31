@@ -1,0 +1,101 @@
+{
+  "world": {
+    "width": 500,
+    "height": 500,
+    "dt": 0.1
+  },
+  "car": {
+    "start_x": 50,
+    "start_y": 250,
+    "start_theta": 0,
+    "max_forward_speed": 3.0,
+    "max_reverse_speed": 1.0,
+    "acceleration": 1.0,
+    "friction": 0.15,
+    "turn_rate_per_second": 1.57,
+    "car_radius": 10
+  },
+  "sensors": {
+    "max_range": 100,
+    "cone_angle": 60,
+    "positions": [
+      {"name": "FL", "angle_offset": 45},
+      {"name": "FR", "angle_offset": -45},
+      {"name": "BL", "angle_offset": 135},
+      {"name": "BR", "angle_offset": -135}
+    ],
+    "noise_std": 3.0,
+    "filter_size": 5
+  },
+  "modes": {
+    "cautious": {
+      "danger_threshold": 30,
+      "warning_threshold": 40,
+      "target_speed": 1.5
+    },
+    "normal": {
+      "danger_threshold": 15,
+      "warning_threshold": 25,
+      "target_speed": 2.0
+    },
+    "aggressive": {
+      "danger_threshold": 10,
+      "warning_threshold": 15,
+      "target_speed": 2.5
+    }
+  },
+  "scenarios": {
+    "corridor": {
+      "description": "Narrow corridor with walls on sides - straight path",
+      "obstacles": [
+        {"x": 150, "y": 80, "radius": 20, "type": "static"},
+        {"x": 250, "y": 80, "radius": 20, "type": "static"},
+        {"x": 350, "y": 80, "radius": 20, "type": "static"},
+        {"x": 150, "y": 420, "radius": 20, "type": "static"},
+        {"x": 250, "y": 420, "radius": 20, "type": "static"},
+        {"x": 350, "y": 420, "radius": 20, "type": "static"}
+      ]
+    },
+    "random": {
+      "description": "Random obstacles scattered across world",
+      "obstacles": [
+        {"x": 150, "y": 200, "radius": 15, "type": "static"},
+        {"x": 350, "y": 300, "radius": 15, "type": "static"},
+        {"x": 250, "y": 150, "radius": 12, "type": "static"},
+        {"x": 200, "y": 400, "radius": 15, "type": "static"},
+        {"x": 400, "y": 200, "radius": 18, "type": "static"},
+        {"x": 100, "y": 350, "radius": 14, "type": "static"}
+      ]
+    },
+    "intersection": {
+      "description": "Crossroad with moving obstacles - tests evasion",
+      "obstacles": [
+        {"x": 100, "y": 250, "radius": 15, "type": "static"},
+        {"x": 400, "y": 250, "radius": 15, "type": "static"},
+        {"x": 250, "y": 100, "radius": 15, "type": "static"},
+        {"x": 250, "y": 400, "radius": 15, "type": "static"},
+        {"x": 200, "y": 250, "radius": 12, "type": "bounce", "velocity": 2.0, "direction_angle": 0},
+        {"x": 300, "y": 250, "radius": 12, "type": "bounce", "velocity": 2.0, "direction_angle": 3.14159}
+      ]
+    },
+    "dense": {
+      "description": "Heavy traffic scenario - many obstacles",
+      "obstacles": [
+        {"x": 80, "y": 100, "radius": 12, "type": "static"},
+        {"x": 150, "y": 120, "radius": 12, "type": "static"},
+        {"x": 220, "y": 100, "radius": 12, "type": "static"},
+        {"x": 290, "y": 130, "radius": 12, "type": "static"},
+        {"x": 360, "y": 110, "radius": 12, "type": "static"},
+        {"x": 430, "y": 125, "radius": 12, "type": "static"},
+        {"x": 90, "y": 250, "radius": 12, "type": "bounce", "velocity": 1.5, "direction_angle": 0},
+        {"x": 200, "y": 270, "radius": 12, "type": "static"},
+        {"x": 310, "y": 240, "radius": 12, "type": "bounce", "velocity": 1.5, "direction_angle": 3.14159},
+        {"x": 420, "y": 260, "radius": 12, "type": "static"},
+        {"x": 100, "y": 380, "radius": 12, "type": "static"},
+        {"x": 200, "y": 400, "radius": 12, "type": "static"},
+        {"x": 300, "y": 370, "radius": 12, "type": "static"},
+        {"x": 400, "y": 390, "radius": 12, "type": "static"}
+      ]
+    }
+  }
+}
