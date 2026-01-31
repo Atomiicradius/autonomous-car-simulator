@@ -157,6 +157,7 @@ class Environment:
             scenario (str): Obstacle layout - 'random', 'corridor', 'intersection', 'dense'
         """
         self.scenario = scenario
+        print(f"DEBUG: Environment initialized with scenario '{scenario}' - Code Version: WITH_OBSTACLE_DICTS")
         self.obstacles = []
         self.world_width = PHYSICS_CONFIG['world_width']
         self.world_height = PHYSICS_CONFIG['world_height']
@@ -214,6 +215,19 @@ class Environment:
     def get_obstacles(self):
         """Get all obstacles in environment"""
         return self.obstacles
+    
+    def get_obstacles_as_dicts(self):
+        """Get obstacles in format suitable for JSON serialization to frontend"""
+        result = []
+        for obs in self.obstacles:
+            x, y = obs['pos']
+            result.append({
+                'x': x,
+                'y': y,
+                'radius': obs.get('radius', 0.5),
+                'type': 'static'
+            })
+        return result
     
     def add_obstacle(self, x, y, radius=0.5):
         """Dynamically add an obstacle"""

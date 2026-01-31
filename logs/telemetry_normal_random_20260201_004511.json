@@ -1,0 +1,2113 @@
+{
+  "mode": "normal",
+  "scenario": "random",
+  "metrics": {
+    "total_collisions": 0,
+    "avg_hazard_score": 0.027084848948314737,
+    "state_transitions": 2,
+    "emergency_brakes": 5,
+    "ttc_interventions": 6
+  },
+  "telemetry": [
+    {
+      "cycle": 0,
+      "timestamp": 0.00015997886657714844,
+      "state": "CRUISE",
+      "position": [
+        10.01,
+        10.0
+      ],
+      "speed": 0.1,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 5.899078952681525,
+        "BL": 8.838133660107708,
+        "BR": 4.860723312563844
+      },
+      "hazard_score": 0.0,
+      "ttc": Infinity,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 1,
+      "timestamp": 0.10021519660949707,
+      "state": "CRUISE",
+      "position": [
+        10.029,
+        10.0
+      ],
+      "speed": 0.19,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.226524172148494,
+        "FR": 5.4213947033969925,
+        "BL": 7.200521687129244,
+        "BR": 4.786429023492646
+      },
+      "hazard_score": 0.0,
+      "ttc": 54.21394703396992,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 2,
+      "timestamp": 0.20125508308410645,
+      "state": "CRUISE",
+      "position": [
+        10.057,
+        10.0
+      ],
+      "speed": 0.28,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.951395473100023,
+        "FR": 5.7455289878385845,
+        "BL": 7.941852198571279,
+        "BR": 4.687349957469277
+      },
+      "hazard_score": 0.0,
+      "ttc": 30.239626251782024,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 3,
+      "timestamp": 0.3014109134674072,
+      "state": "CRUISE",
+      "position": [
+        10.094000000000001,
+        10.0
+      ],
+      "speed": 0.37000000000000005,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.592200572465565,
+        "FR": 5.190230520613819,
+        "BL": 7.779094584529983,
+        "BR": 4.823924651005489
+      },
+      "hazard_score": 0.0,
+      "ttc": 18.53653757362078,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 4,
+      "timestamp": 0.4015936851501465,
+      "state": "CRUISE",
+      "position": [
+        10.14,
+        10.0
+      ],
+      "speed": 0.4600000000000001,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 5.454734342320125,
+        "BL": 8.054471177368624,
+        "BR": 4.785971656477385
+      },
+      "hazard_score": 0.0,
+      "ttc": 14.74252524951385,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 5,
+      "timestamp": 0.5020370483398438,
+      "state": "CRUISE",
+      "position": [
+        10.195,
+        10.0
+      ],
+      "speed": 0.55,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 5.25265281040322,
+        "BL": 7.194249447652602,
+        "BR": 4.384283190979657
+      },
+      "hazard_score": 0.0,
+      "ttc": 11.418810457398303,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 6,
+      "timestamp": 0.6024589538574219,
+      "state": "CRUISE",
+      "position": [
+        10.259,
+        10.0
+      ],
+      "speed": 0.64,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.845180134813955,
+        "FR": 5.561453104261677,
+        "BL": 8.076645493207145,
+        "BR": 5.323142532179141
+      },
+      "hazard_score": 0.0,
+      "ttc": 10.111732916839411,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 7,
+      "timestamp": 0.7030508518218994,
+      "state": "CRUISE",
+      "position": [
+        10.332,
+        10.0
+      ],
+      "speed": 0.73,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 5.285750453265963,
+        "BL": 8.088142827169026,
+        "BR": 4.585636229153689
+      },
+      "hazard_score": 0.0,
+      "ttc": 8.258985083228067,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 8,
+      "timestamp": 0.8036942481994629,
+      "state": "CRUISE",
+      "position": [
+        10.414000000000001,
+        10.0
+      ],
+      "speed": 0.82,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.553527753057397,
+        "FR": 5.3399212226885755,
+        "BL": 7.905080098340062,
+        "BR": 5.079900268235079
+      },
+      "hazard_score": 0.0,
+      "ttc": 7.314960579025446,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 9,
+      "timestamp": 0.9039239883422852,
+      "state": "CRUISE",
+      "position": [
+        10.505,
+        10.0
+      ],
+      "speed": 0.9099999999999999,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 4.885896013262395,
+        "BL": 7.641304829546055,
+        "BR": 5.0992049179694545
+      },
+      "hazard_score": 0.0,
+      "ttc": 5.958409772271215,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 10,
+      "timestamp": 1.0043220520019531,
+      "state": "CRUISE",
+      "position": [
+        10.605,
+        10.0
+      ],
+      "speed": 0.9999999999999999,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 5.440515506688299,
+        "BL": 8.319576443963138,
+        "BR": 4.874582778965308
+      },
+      "hazard_score": 0.0,
+      "ttc": 5.978588468888241,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 11,
+      "timestamp": 1.1052165031433105,
+      "state": "CRUISE",
+      "position": [
+        10.714,
+        10.0
+      ],
+      "speed": 1.0899999999999999,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.427632272195574,
+        "FR": 5.451221409319427,
+        "BL": 7.739372132716492,
+        "BR": 4.9507014455369
+      },
+      "hazard_score": 0.0,
+      "ttc": 5.451221409319428,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 12,
+      "timestamp": 1.2054529190063477,
+      "state": "CRUISE",
+      "position": [
+        10.832,
+        10.0
+      ],
+      "speed": 1.18,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.458367969782033,
+        "FR": 5.3688808227553375,
+        "BL": 8.492512680537223,
+        "BR": 5.005528792418834
+      },
+      "hazard_score": 0.0,
+      "ttc": 4.925578736472787,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 13,
+      "timestamp": 1.3055901527404785,
+      "state": "CRUISE",
+      "position": [
+        10.959000000000001,
+        10.0
+      ],
+      "speed": 1.27,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 5.387547127450553,
+        "BL": 8.19107023687436,
+        "BR": 5.23461766596438
+      },
+      "hazard_score": 0.0,
+      "ttc": 4.565717904619113,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 14,
+      "timestamp": 1.4059762954711914,
+      "state": "CRUISE",
+      "position": [
+        11.095,
+        10.0
+      ],
+      "speed": 1.36,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.271955102164767,
+        "FR": 5.174438789688555,
+        "BL": 2.9631295094027577,
+        "BR": 4.79752624708459
+      },
+      "hazard_score": 0.3579136603981616,
+      "ttc": 4.074361251723271,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 15,
+      "timestamp": 1.5061266422271729,
+      "state": "CRUISE",
+      "position": [
+        11.24,
+        10.0
+      ],
+      "speed": 1.4500000000000002,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 5.026123057214811,
+        "BL": 3.1678906166954963,
+        "BR": 5.184495551333425
+      },
+      "hazard_score": 0.22140625553633578,
+      "ttc": 3.695678718540302,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 16,
+      "timestamp": 1.606600284576416,
+      "state": "CRUISE",
+      "position": [
+        11.394,
+        10.0
+      ],
+      "speed": 1.5400000000000003,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 4.988268450806093,
+        "BL": 3.2886677547958416,
+        "BR": 5.257066108216119
+      },
+      "hazard_score": 0.14088816346943892,
+      "ttc": 3.44018513848696,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 17,
+      "timestamp": 1.706817388534546,
+      "state": "CRUISE",
+      "position": [
+        11.557,
+        10.0
+      ],
+      "speed": 1.6300000000000003,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.894517835671577,
+        "FR": 5.4917486953222205,
+        "BL": 3.058334746850907,
+        "BR": 5.147763256199663
+      },
+      "hazard_score": 0.29444350209939546,
+      "ttc": 3.5660705813780647,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 18,
+      "timestamp": 1.808126449584961,
+      "state": "CRUISE",
+      "position": [
+        11.729000000000001,
+        10.0
+      ],
+      "speed": 1.7200000000000004,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 5.129065442395763,
+        "BL": 3.2191788046057055,
+        "BR": 5.037567013569469
+      },
+      "hazard_score": 0.18721413026286302,
+      "ttc": 3.1466659155802224,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 19,
+      "timestamp": 1.9078326225280762,
+      "state": "CRUISE",
+      "position": [
+        11.91,
+        10.0
+      ],
+      "speed": 1.8100000000000005,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.583849023087295,
+        "FR": 4.758780100922441,
+        "BL": 3.074680154215095,
+        "BR": 5.8878597085132744
+      },
+      "hazard_score": 0.2835465638566032,
+      "ttc": 2.766732616815372,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 20,
+      "timestamp": 2.0086350440979004,
+      "state": "CRUISE",
+      "position": [
+        12.1,
+        10.0
+      ],
+      "speed": 1.9000000000000006,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.251014815193754,
+        "FR": 4.521138111385527,
+        "BL": 3.3268726932227213,
+        "BR": 5.589965079018087
+      },
+      "hazard_score": 0.11541820451818581,
+      "ttc": 2.497866359881506,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 21,
+      "timestamp": 2.1091389656066895,
+      "state": "CRUISE",
+      "position": [
+        12.299,
+        10.0
+      ],
+      "speed": 1.9900000000000007,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.93723793742088,
+        "FR": 4.25513008312051,
+        "BL": 3.325172281337141,
+        "BR": 5.926155069578351
+      },
+      "hazard_score": 0.11655181244190604,
+      "ttc": 2.239542149010794,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 22,
+      "timestamp": 2.209747791290283,
+      "state": "CRUISE",
+      "position": [
+        12.507,
+        10.0
+      ],
+      "speed": 2.0800000000000005,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.423891583651248,
+        "FR": 4.462670109244826,
+        "BL": 3.728855703922068,
+        "BR": 6.398564398035019
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.242547793590364,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 23,
+      "timestamp": 2.3099350929260254,
+      "state": "CRUISE",
+      "position": [
+        12.724,
+        10.0
+      ],
+      "speed": 2.1700000000000004,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 4.3261827619120945,
+        "BL": 3.443578801236587,
+        "BR": 6.433487724136776
+      },
+      "hazard_score": 0.03761413250894208,
+      "ttc": 2.0798955586115833,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 24,
+      "timestamp": 2.410039186477661,
+      "state": "CRUISE",
+      "position": [
+        12.950000000000001,
+        10.0
+      ],
+      "speed": 2.2600000000000002,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.878938455534177,
+        "FR": 3.8722911257003987,
+        "BL": 3.6672174946065,
+        "BR": 5.395636354788093
+      },
+      "hazard_score": 0.0,
+      "ttc": 1.7844659565439622,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 25,
+      "timestamp": 2.510514974594116,
+      "state": "CRUISE",
+      "position": [
+        13.185,
+        10.0
+      ],
+      "speed": 2.35,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.306655223899073,
+        "FR": 4.178234719949935,
+        "BL": 3.9827338476584764,
+        "BR": 5.1064288967863005
+      },
+      "hazard_score": 0.0,
+      "ttc": 1.8487764247566083,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 26,
+      "timestamp": 2.610828399658203,
+      "state": "EMERGENCY_BRAKE",
+      "position": [
+        13.399000000000001,
+        10.0
+      ],
+      "speed": 2.14,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.849613849787223,
+        "FR": 3.83527158867768,
+        "BL": 3.9678758056233225,
+        "BR": 5.023759018306145
+      },
+      "hazard_score": 0.0,
+      "ttc": 1.6320304632670979,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 27,
+      "timestamp": 2.711275815963745,
+      "state": "EMERGENCY_BRAKE",
+      "position": [
+        13.592,
+        10.0
+      ],
+      "speed": 1.9300000000000002,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.798332156936777,
+        "FR": 3.4895726371411935,
+        "BL": 3.934440379145096,
+        "BR": 5.441668277513779
+      },
+      "hazard_score": 0.006951575239204348,
+      "ttc": 1.6306414192248566,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 28,
+      "timestamp": 2.8115644454956055,
+      "state": "EMERGENCY_BRAKE",
+      "position": [
+        13.764000000000001,
+        10.0
+      ],
+      "speed": 1.7200000000000002,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 3.6505160357909308,
+        "BL": 4.4394975705616355,
+        "BR": 6.058413530471036
+      },
+      "hazard_score": 0.0,
+      "ttc": 1.8914590859020366,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 29,
+      "timestamp": 2.911851167678833,
+      "state": "EMERGENCY_BRAKE",
+      "position": [
+        13.915000000000001,
+        10.0
+      ],
+      "speed": 1.5100000000000002,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 3.6634799616065696,
+        "BL": 4.246648771647452,
+        "BR": 5.6915502117362085
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.1299302102363775,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 30,
+      "timestamp": 3.012272357940674,
+      "state": "EMERGENCY_BRAKE",
+      "position": [
+        14.045000000000002,
+        10.0
+      ],
+      "speed": 1.3000000000000003,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 3.560418662808531,
+        "BL": 4.814158836078857,
+        "BR": 5.816851025606067
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.3578931541778347,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 31,
+      "timestamp": 3.1125802993774414,
+      "state": "CRUISE",
+      "position": [
+        14.184000000000001,
+        10.0
+      ],
+      "speed": 1.3900000000000003,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.67085193172978,
+        "FR": 3.458995868650933,
+        "BL": 5.081512650983509,
+        "BR": 5.851303632787757
+      },
+      "hazard_score": 0.027336087566044814,
+      "ttc": 2.6607660528084094,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 32,
+      "timestamp": 3.212737560272217,
+      "state": "CRUISE",
+      "position": [
+        14.332,
+        10.0
+      ],
+      "speed": 1.4800000000000004,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 3.6014462175437956,
+        "BL": 4.9593498505827185,
+        "BR": 5.443094712718132
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.5909685018300683,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 33,
+      "timestamp": 3.313184976577759,
+      "state": "CRUISE",
+      "position": [
+        14.489,
+        10.0
+      ],
+      "speed": 1.5700000000000005,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 3.540405552047408,
+        "BL": 4.638745191193218,
+        "BR": 5.035611564345303
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.3921659135455453,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 34,
+      "timestamp": 3.414226770401001,
+      "state": "CRUISE",
+      "position": [
+        14.655000000000001,
+        10.0
+      ],
+      "speed": 1.6600000000000006,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.08090788149087,
+        "FR": 3.272175397957163,
+        "BL": 5.042144387365853,
+        "BR": 5.307891496297982
+      },
+      "hazard_score": 0.15188306802855797,
+      "ttc": 2.0841881515650713,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 35,
+      "timestamp": 3.5145037174224854,
+      "state": "CRUISE",
+      "position": [
+        14.830000000000002,
+        10.0
+      ],
+      "speed": 1.7500000000000007,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.654815820973136,
+        "FR": 3.2437267977441078,
+        "BL": 5.250937599424442,
+        "BR": 4.666531355142127
+      },
+      "hazard_score": 0.17084880150392814,
+      "ttc": 1.9540522877976545,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 36,
+      "timestamp": 3.614685297012329,
+      "state": "CRUISE",
+      "position": [
+        15.014000000000001,
+        10.0
+      ],
+      "speed": 1.8400000000000007,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 5.5107365551552325,
+        "BR": 4.80622239304308
+      },
+      "hazard_score": 0.0,
+      "ttc": 5.714285714285712,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 37,
+      "timestamp": 3.7150380611419678,
+      "state": "CRUISE",
+      "position": [
+        15.207,
+        10.0
+      ],
+      "speed": 1.9300000000000008,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.792625762863144,
+        "FR": 9.794136065661077,
+        "BL": 5.331354691784869,
+        "BR": 4.7065515328469125
+      },
+      "hazard_score": 0.0,
+      "ttc": 5.3220792189473585,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 38,
+      "timestamp": 3.8156464099884033,
+      "state": "CRUISE",
+      "position": [
+        15.409,
+        10.0
+      ],
+      "speed": 2.020000000000001,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 5.554149756131677,
+        "BR": 5.618531039818934
+      },
+      "hazard_score": 0.0,
+      "ttc": 5.181347150259065,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 39,
+      "timestamp": 3.916128396987915,
+      "state": "CRUISE",
+      "position": [
+        15.620000000000001,
+        10.0
+      ],
+      "speed": 2.1100000000000008,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.508558306430256,
+        "FR": 10.0,
+        "BL": 5.52359027655762,
+        "BR": 4.895823559793907
+      },
+      "hazard_score": 0.0,
+      "ttc": 4.707207082391214,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 40,
+      "timestamp": 4.0161824226379395,
+      "state": "CRUISE",
+      "position": [
+        15.840000000000002,
+        10.0
+      ],
+      "speed": 2.2000000000000006,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.446565895365971,
+        "BL": 6.2075089440525595,
+        "BR": 5.199717307250893
+      },
+      "hazard_score": 0.0,
+      "ttc": 4.477045448040743,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 41,
+      "timestamp": 4.116366863250732,
+      "state": "CRUISE",
+      "position": [
+        16.069000000000003,
+        10.0
+      ],
+      "speed": 2.2900000000000005,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 6.030402734425837,
+        "BR": 5.489727513696399
+      },
+      "hazard_score": 0.0,
+      "ttc": 4.545454545454544,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 42,
+      "timestamp": 4.217764616012573,
+      "state": "CRUISE",
+      "position": [
+        16.307000000000002,
+        10.0
+      ],
+      "speed": 2.3800000000000003,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.3579540419556,
+        "FR": 10.0,
+        "BL": 6.512800583944977,
+        "BR": 5.233392345328652
+      },
+      "hazard_score": 0.0,
+      "ttc": 4.086442813081047,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 43,
+      "timestamp": 4.3173933029174805,
+      "state": "CRUISE",
+      "position": [
+        16.554000000000002,
+        10.0
+      ],
+      "speed": 2.47,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.819949040196915,
+        "BL": 6.716191688172125,
+        "BR": 6.3176272036901056
+      },
+      "hazard_score": 0.0,
+      "ttc": 4.126029008486098,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 44,
+      "timestamp": 4.417563438415527,
+      "state": "CRUISE",
+      "position": [
+        16.810000000000002,
+        10.0
+      ],
+      "speed": 2.56,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.230703402692424,
+        "FR": 9.132850128151569,
+        "BL": 7.197383268304551,
+        "BR": 6.440526242645935
+      },
+      "hazard_score": 0.0,
+      "ttc": 3.697510173340716,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 45,
+      "timestamp": 4.51806902885437,
+      "state": "CRUISE",
+      "position": [
+        17.075000000000003,
+        10.0
+      ],
+      "speed": 2.65,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.841720251523366,
+        "FR": 10.0,
+        "BL": 7.2574714690055435,
+        "BR": 5.7702065731874495
+      },
+      "hazard_score": 0.0,
+      "ttc": 3.8444219732513147,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 46,
+      "timestamp": 4.61824631690979,
+      "state": "CRUISE",
+      "position": [
+        17.349000000000004,
+        10.0
+      ],
+      "speed": 2.7399999999999998,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.922577960150084,
+        "FR": 9.362832250946886,
+        "BL": 6.933754514382474,
+        "BR": 3.095864380191108
+      },
+      "hazard_score": 0.26942374653926127,
+      "ttc": 3.5331442456403344,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 47,
+      "timestamp": 4.718783140182495,
+      "state": "CRUISE",
+      "position": [
+        17.632000000000005,
+        10.0
+      ],
+      "speed": 2.8299999999999996,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.008145301276588,
+        "BL": 7.570856838481429,
+        "BR": 3.4536608337174908
+      },
+      "hazard_score": 0.030892777521672816,
+      "ttc": 3.2876442705389013,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 48,
+      "timestamp": 4.819357872009277,
+      "state": "CRUISE",
+      "position": [
+        17.924000000000007,
+        10.0
+      ],
+      "speed": 2.9199999999999995,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.690781475127343,
+        "FR": 9.428278670037647,
+        "BL": 7.8137407776360615,
+        "BR": 3.055771379988541
+      },
+      "hazard_score": 0.2961524133409726,
+      "ttc": 3.331547233228851,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 49,
+      "timestamp": 4.919535398483276,
+      "state": "CRUISE",
+      "position": [
+        18.225000000000005,
+        10.0
+      ],
+      "speed": 3.0099999999999993,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.862904980121074,
+        "FR": 10.0,
+        "BL": 7.587812619922303,
+        "BR": 3.7389573992206744
+      },
+      "hazard_score": 0.0,
+      "ttc": 3.377707184972971,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 50,
+      "timestamp": 5.019649505615234,
+      "state": "CRUISE",
+      "position": [
+        18.535000000000004,
+        10.0
+      ],
+      "speed": 3.099999999999999,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.575494995121993,
+        "FR": 10.0,
+        "BL": 8.16563176141202,
+        "BR": 4.017190652527594
+      },
+      "hazard_score": 0.0,
+      "ttc": 3.1812275731302306,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 51,
+      "timestamp": 5.1199631690979,
+      "state": "CRUISE",
+      "position": [
+        18.854000000000003,
+        10.0
+      ],
+      "speed": 3.189999999999999,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.791158025358083,
+        "BL": 8.359674092530877,
+        "BR": 4.043819041067169
+      },
+      "hazard_score": 0.0,
+      "ttc": 3.1584380726961565,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 52,
+      "timestamp": 5.224305629730225,
+      "state": "CRUISE",
+      "position": [
+        19.182000000000002,
+        10.0
+      ],
+      "speed": 3.279999999999999,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.647436050277115,
+        "BL": 8.650832186120763,
+        "BR": 4.179700228258676
+      },
+      "hazard_score": 0.0,
+      "ttc": 3.0242746239113223,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 53,
+      "timestamp": 5.324462175369263,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.3699999999999988,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.266722694167287,
+        "FR": 9.389831995629786,
+        "BL": 9.866189285239004,
+        "BR": 4.451684676033468
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.8252203335875885,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 54,
+      "timestamp": 5.425879240036011,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.4599999999999986,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 9.678567124936666,
+        "BR": 4.875557206130639
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.967359050445105,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 55,
+      "timestamp": 5.52657675743103,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 9.951982012164564,
+        "BR": 4.723862364025558
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.8901734104046253,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 56,
+      "timestamp": 5.626929521560669,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.964024259462288,
+        "FR": 9.277248579147761,
+        "BL": 9.881829760156123,
+        "BR": 4.453261957169042
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.6506424511850746,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 57,
+      "timestamp": 5.727073907852173,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.22962642099132,
+        "BL": 9.238032974520229,
+        "BR": 4.436919916193096
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.637036120283234,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 58,
+      "timestamp": 5.827667951583862,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.762797942649208,
+        "FR": 9.92506977640899,
+        "BL": 9.57869715671347,
+        "BR": 4.4518411114004675
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.7893708407569164,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 59,
+      "timestamp": 5.927776098251343,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.40361528672714,
+        "BL": 9.246196064668558,
+        "BR": 4.504320698125227
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.686747224779183,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 60,
+      "timestamp": 6.0282440185546875,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.889100752795997,
+        "BL": 9.737937248834404,
+        "BR": 4.407677901045083
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.8254573579417133,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 61,
+      "timestamp": 6.129071950912476,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.749590799615108,
+        "FR": 9.614340351055384,
+        "BL": 9.808243925181587,
+        "BR": 4.197331175644512
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.746954386015824,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 62,
+      "timestamp": 6.22882866859436,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 8.966551985969492,
+        "FR": 9.421836739300929,
+        "BL": 9.22823554608529,
+        "BR": 4.505875480246412
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.5618719959912832,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 63,
+      "timestamp": 6.329192876815796,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 8.633479805569149,
+        "BR": 4.573037727540593
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 64,
+      "timestamp": 6.429752588272095,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 8.880844611512481,
+        "BR": 4.300221838766696
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 65,
+      "timestamp": 6.529962539672852,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.667565754130507,
+        "BL": 10.0,
+        "BR": 4.923815528443306
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.762161644037288,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 66,
+      "timestamp": 6.630796670913696,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 8.733221455210089,
+        "BR": 4.131110815767366
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 67,
+      "timestamp": 6.731826305389404,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.27261459255429,
+        "FR": 10.0,
+        "BL": 9.321237171436772,
+        "BR": 4.484423869261105
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.6493184550155116,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 68,
+      "timestamp": 6.832333087921143,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.89386125556228,
+        "BL": 10.0,
+        "BR": 4.789941619609859
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.8268175015892227,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 69,
+      "timestamp": 6.933186054229736,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 9.60203301782357,
+        "BR": 4.6343475794983915
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 70,
+      "timestamp": 7.033565044403076,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.97339873286035,
+        "BL": 9.726292216149261,
+        "BR": 4.794440602898784
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.849542495102957,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 71,
+      "timestamp": 7.134060621261597,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.857343550827583,
+        "FR": 9.994901695154459,
+        "BL": 10.0,
+        "BR": 4.559029105408427
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.816383871665024,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 72,
+      "timestamp": 7.234221458435059,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.707037301075108,
+        "FR": 10.0,
+        "BL": 9.511018695865697,
+        "BR": 4.363626986120994
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.773439228878602,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 73,
+      "timestamp": 7.33455228805542,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.445967069608962,
+        "BL": 9.102690060190007,
+        "BR": 4.8131787382898885
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.698847734173989,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 74,
+      "timestamp": 7.434973239898682,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.371641557730293,
+        "BL": 9.699135658320783,
+        "BR": 4.5960950075786595
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.6776118736372263,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 75,
+      "timestamp": 7.535456895828247,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 9.108322886947548,
+        "BR": 4.658139583270368
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 76,
+      "timestamp": 7.635740756988525,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.672640559612747,
+        "FR": 10.0,
+        "BL": 10.0,
+        "BR": 4.267565940114674
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.7636115884607846,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 77,
+      "timestamp": 7.735968351364136,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 9.243115531674782,
+        "BR": 4.611772695364257
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 78,
+      "timestamp": 7.836255073547363,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.559295189687314,
+        "FR": 10.0,
+        "BL": 9.610221257931729,
+        "BR": 4.739371561213036
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.731227197053518,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 79,
+      "timestamp": 7.936479806900024,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.47420997761985,
+        "BL": 8.78874334086793,
+        "BR": 4.5754353604715
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.706917136462814,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 80,
+      "timestamp": 8.039350748062134,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.93647785194647,
+        "FR": 10.0,
+        "BL": 8.614815836616467,
+        "BR": 4.687987396186576
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.838993671984706,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 81,
+      "timestamp": 8.13965916633606,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.374063682419017,
+        "FR": 10.0,
+        "BL": 8.90753924512903,
+        "BR": 4.6061338708673585
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.6783039092625764,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 82,
+      "timestamp": 8.24015212059021,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.262907847637612,
+        "BL": 9.475402425728618,
+        "BR": 4.5483783606366766
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.646545099325032,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 83,
+      "timestamp": 8.34039044380188,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.343890064804084,
+        "BL": 8.822578074383241,
+        "BR": 4.418211450471415
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.6696828756583098,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 84,
+      "timestamp": 8.440974473953247,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.272440012419528,
+        "FR": 10.0,
+        "BL": 9.428696549067464,
+        "BR": 4.7160673290108175
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.649268574977008,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 85,
+      "timestamp": 8.541608095169067,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.646574873382782,
+        "FR": 9.439343299976473,
+        "BL": 9.028831176392767,
+        "BR": 4.4795875161533925
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.6969552285647067,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 86,
+      "timestamp": 8.641912698745728,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.547666284640975,
+        "FR": 10.0,
+        "BL": 9.651252414946248,
+        "BR": 4.693464507832854
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.7279046527545643,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 87,
+      "timestamp": 8.742165565490723,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 8.969925290235523,
+        "FR": 9.91864750761722,
+        "BL": 9.127747497761922,
+        "BR": 4.85869003117061
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.562835797210149,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 88,
+      "timestamp": 8.842348337173462,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 9.053827320616184,
+        "BR": 4.34238255646477
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 89,
+      "timestamp": 8.943155527114868,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 9.384413166083512,
+        "BR": 4.633566643144383
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 90,
+      "timestamp": 9.04322624206543,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.69170448903486,
+        "FR": 10.0,
+        "BL": 9.487394761928483,
+        "BR": 4.825987780554967
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.7690584254385313,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 91,
+      "timestamp": 9.150286436080933,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.606894970472355,
+        "BL": 9.881135254651916,
+        "BR": 4.92736684215589
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.744827134420673,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 92,
+      "timestamp": 9.250993490219116,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.949142860177815,
+        "BL": 9.001202322047801,
+        "BR": 4.074111489091478
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.84261224576509,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 93,
+      "timestamp": 9.351604700088501,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.794187246352719,
+        "FR": 9.829757076846963,
+        "BL": 9.625781792776433,
+        "BR": 4.185755597918282
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.7983392132436338,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 94,
+      "timestamp": 9.451911926269531,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 9.066426670561682,
+        "BR": 4.535296813940799
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 95,
+      "timestamp": 9.552114725112915,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.794323802984476,
+        "FR": 10.0,
+        "BL": 8.551075793211929,
+        "BR": 4.386135556141042
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.7983782294241357,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 96,
+      "timestamp": 9.652427434921265,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 9.848027352991334,
+        "BL": 9.805699086578468,
+        "BR": 4.406233569329302
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.8137221008546667,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 97,
+      "timestamp": 9.753050804138184,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.947011769896601,
+        "FR": 10.0,
+        "BL": 9.734531806566384,
+        "BR": 4.718801300674216
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.8420033628276005,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 98,
+      "timestamp": 9.854911088943481,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 9.55018184098682,
+        "FR": 10.0,
+        "BL": 9.291795410809335,
+        "BR": 4.540551695116447
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.7286233831390914,
+      "collision": false,
+      "total_collisions": 0
+    },
+    {
+      "cycle": 99,
+      "timestamp": 9.955407619476318,
+      "state": "CRUISE",
+      "position": [
+        19.5,
+        10.0
+      ],
+      "speed": 3.5,
+      "heading": 0.0,
+      "sensors": {
+        "FL": 10.0,
+        "FR": 10.0,
+        "BL": 8.340448952807476,
+        "BR": 4.441644671691128
+      },
+      "hazard_score": 0.0,
+      "ttc": 2.857142857142857,
+      "collision": false,
+      "total_collisions": 0
+    }
+  ]
+}

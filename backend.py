@@ -8,6 +8,8 @@ Runs at 100ms control cycle (10 Hz).
 
 import time
 import json
+import csv
+import os
 from datetime import datetime
 from alu_decision import ALUDecisionEngine
 from sensors import SensorArray
@@ -133,9 +135,13 @@ class AutonomousVehicleController:
                 time.sleep(sleep_time)
 
     def save_telemetry(self, filename=None):
+        """Save telemetry data to JSON file"""
         if filename is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"telemetry_{self.mode}_{self.scenario}_{timestamp}.json"
+            filename = f"logs/telemetry_{self.mode}_{self.scenario}_{timestamp}.json"
+        
+        # Create logs directory if it doesn't exist
+        os.makedirs('logs', exist_ok=True)
 
         with open(filename, 'w') as f:
             json.dump({
@@ -144,11 +150,95 @@ class AutonomousVehicleController:
                 'metrics': self.metrics,
                 'telemetry': self.telemetry_log,
             }, f, indent=2)
+        
+        return filename
+    
+    def save_telemetry_csv(self, filename=None):
+        """Save telemetry data to CSV file for analysis"""
+        if filename is None:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"logs/telemetry_{self.mode}_{self.scenario}_{timestamp}.csv"
+        
+        # Create logs directory if it doesn't exist
+        os.makedirs('logs', exist_ok=True)
+        
+        with open(filename, 'w', newline='') as f:
+            fieldnames = [
+                'cycle', 'timestamp', 'state', 
+                'x', 'y', 'speed', 'heading',
+                'FL', 'FR', 'BL', 'BR',
+                'hazard_score', 'ttc', 'collision', 'total_collisions'
+            ]
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            
+            for entry in self.telemetry_log:
+                row = {
+                    'cycle': entry['cycle'],
+                    'timestamp': entry['timestamp'],
+                    'state': entry['state'],
+                    'x': entry['position'][0],
+                    'y': entry['position'][1],
+                    'speed': entry['speed'],
+                    'heading': entry['heading'],
+                    'FL': entry['sensors']['FL'],
+                    'FR': entry['sensors']['FR'],
+                    'BL': entry['sensors']['BL'],
+                    'BR': entry['sensors']['BR'],
+                    'hazard_score': entry['hazard_score'],
+                    'ttc': entry['ttc'] if entry['ttc'] != float('inf') else 999.0,
+                    'collision': 1 if entry['collision'] else 0,
+                    'total_collisions': entry['total_collisions']
+                }
+                writer.writerow(row)
+        
+        return filename
+    
+    def get_summary_metrics(self):
+        """Compute summary metrics for the simulation run"""
+        if not self.telemetry_log:
+            return {}
+        
+        total_time = self.telemetry_log[-1]['timestamp'] if self.telemetry_log else 0
+        total_distance = 0
+        
+        # Calculate distance traveled
+        for i in range(1, len(self.telemetry_log)):
+            prev_pos = self.telemetry_log[i-1]['position']
+            curr_pos = self.telemetry_log[i]['position']
+            dx = curr_pos[0] - prev_pos[0]
+            dy = curr_pos[1] - prev_pos[1]
+            total_distance += (dx**2 + dy**2)**0.5
+        
+        avg_speed = sum(t['speed'] for t in self.telemetry_log) / len(self.telemetry_log)
+        avg_hazard = self.metrics['avg_hazard_score']
+        
+        # Time to first collision
+        time_to_first_collision = None
+        for entry in self.telemetry_log:
+            if entry['collision']:
+                time_to_first_collision = entry['timestamp']
+                break
+        
+        return {
+            'mode': self.mode,
+            'scenario': self.scenario,
+            'total_time': total_time,
+            'total_cycles': self.cycle_count,
+            'total_collisions': self.metrics['total_collisions'],
+            'total_distance': total_distance,
+            'avg_speed': avg_speed,
+            'avg_hazard_score': avg_hazard,
+            'state_transitions': self.metrics['state_transitions'],
+            'emergency_brakes': self.metrics['emergency_brakes'],
+            'ttc_interventions': self.metrics['ttc_interventions'],
+            'time_to_first_collision': time_to_first_collision
+        }
 
     def get_current_state(self):
         return {
             'vehicle': self.vehicle.get_state(),
-            'obstacles': self.environment.get_obstacles(),
+            'obstacles': self.environment.get_obstacles_as_dicts(),
             'sensor_rays': self.sensors.get_sensor_rays(
                 self.vehicle.position,
                 self.vehicle.heading
@@ -178,7 +268,24 @@ def main():
     controller.run_simulation(duration=args.duration)
 
     if args.save:
-        controller.save_telemetry()
+        json_file = controller.save_telemetry()
+        csv_file = controller.save_telemetry_csv()
+        print(f"\nTelemetry saved:")
+        print(f"  JSON: {json_file}")
+        print(f"  CSV:  {csv_file}")
+        
+        # Print summary metrics
+        metrics = controller.get_summary_metrics()
+        print(f"\nSummary Metrics:")
+        print(f"  Mode: {metrics['mode']}")
+        print(f"  Scenario: {metrics['scenario']}")
+        print(f"  Duration: {metrics['total_time']:.1f}s")
+        print(f"  Collisions: {metrics['total_collisions']}")
+        print(f"  Distance: {metrics['total_distance']:.1f}m")
+        print(f"  Avg Speed: {metrics['avg_speed']:.2f} m/s")
+        print(f"  Avg Hazard: {metrics['avg_hazard_score']:.3f}")
+        print(f"  State Transitions: {metrics['state_transitions']}")
+        print(f"  Emergency Brakes: {metrics['emergency_brakes']}")
 
 
 if __name__ == '__main__':

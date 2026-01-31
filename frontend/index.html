@@ -2,49 +2,126 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ALU Autonomous Vehicle Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALU Autonomous Vehicle Simulator - Dashboard</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="container">
+    <header>
+      <h1>🚗 ALU-Based Autonomous Vehicle Simulator</h1>
+      <p class="subtitle">Real-Time Decision-Making Dashboard</p>
+    </header>
 
-  <h1>ALU-Based Autonomous Vehicle Simulator</h1>
+    <div class="dashboard">
+      <!-- Control Panel -->
+      <div class="control-panel">
+        <h2>Control Panel</h2>
+        
+        <div class="control-group">
+          <label for="modeSelect">Driving Mode</label>
+          <select id="modeSelect">
+            <option value="cautious">🐢 Cautious</option>
+            <option value="normal" selected>🚗 Normal</option>
+            <option value="aggressive">🏎️ Aggressive</option>
+          </select>
+        </div>
 
-  <div class="dashboard">
-    <canvas id="simCanvas" width="600" height="600"></canvas>
+        <div class="control-group">
+          <label for="scenarioSelect">Scenario</label>
+          <select id="scenarioSelect">
+            <option value="corridor">🛣️ Corridor</option>
+            <option value="random" selected>🎲 Random</option>
+            <option value="intersection">🚦 Intersection</option>
+            <option value="dense">🧱 Dense</option>
+          </select>
+        </div>
 
-    <div class="controls">
-      <button id="startBtn">Start</button>
-      <button id="pauseBtn">Pause</button>
-      <button id="resetBtn">Reset</button>
+        <div class="button-group">
+          <button id="startBtn" class="btn btn-primary">▶️ Start</button>
+          <button id="pauseBtn" class="btn btn-secondary">⏸️ Pause</button>
+          <button id="resetBtn" class="btn btn-danger">🔄 Reset</button>
+        </div>
 
-      <label>
-        Mode:
-        <select id="modeSelect">
-          <option value="cautious">Cautious</option>
-          <option value="normal">Normal</option>
-          <option value="aggressive">Aggressive</option>
-        </select>
-      </label>
+        <div class="connection-status">
+          <span id="connectionStatus" class="status-indicator offline">⚫ Disconnected</span>
+        </div>
+      </div>
 
-      <label>
-        Scenario:
-        <select id="scenarioSelect">
-          <option value="corridor">Corridor</option>
-          <option value="random">Random</option>
-          <option value="intersection">Intersection</option>
-          <option value="dense">Dense</option>
-        </select>
-      </label>
+      <!-- Simulation Canvas -->
+      <div class="simulation-container">
+        <h2>Live Simulation</h2>
+        <canvas id="simCanvas" width="700" height="700"></canvas>
+      </div>
 
-      <div class="stats">
-        <p>State: <span id="state">-</span></p>
-        <p>Decision: <span id="decision">-</span></p>
-        <p>Speed: <span id="speed">0</span></p>
-        <p>Hazard: <span id="hazard">0</span></p>
+      <!-- Metrics Panel -->
+      <div class="metrics-panel">
+        <h2>Real-Time Metrics</h2>
+        
+        <div class="metric-card state-card">
+          <div class="metric-label">FSM State</div>
+          <div id="fsmState" class="metric-value large">IDLE</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Speed (m/s)</div>
+          <div id="speed" class="metric-value">0.00</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Hazard Score</div>
+          <div id="hazard" class="metric-value">0.00</div>
+          <div class="progress-bar">
+            <div id="hazardBar" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Time-To-Collision (s)</div>
+          <div id="ttc" class="metric-value">∞</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Position (x, y)</div>
+          <div id="position" class="metric-value small">0.0, 0.0</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Heading (°)</div>
+          <div id="heading" class="metric-value">0°</div>
+        </div>
+
+        <h3 style="margin-top: 20px;">Session Statistics</h3>
+        
+        <div class="metric-card">
+          <div class="metric-label">Total Collisions</div>
+          <div id="collisions" class="metric-value">0</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">State Transitions</div>
+          <div id="transitions" class="metric-value">0</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Emergency Brakes</div>
+          <div id="emergencyBrakes" class="metric-value">0</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Cycle Count</div>
+          <div id="cycleCount" class="metric-value">0</div>
+        </div>
       </div>
     </div>
+
+    <footer>
+      <p>ALU-Based Autonomous Vehicle Simulator | 5-State FSM with Predictive Safety</p>
+    </footer>
   </div>
 
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
