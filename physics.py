@@ -1,225 +1,241 @@
 """
-Physics Engine Module
-Author: ALU Engineer (Person 2)
-
-Handles vehicle dynamics, collision detection, and environment simulation.
+Car physics engine for autonomous vehicle simulator.
+Handles kinematics, acceleration, turning, and boundary conditions.
 """
 
 import math
-import random
-from config import PHYSICS_CONFIG
+import json
+from dataclasses import dataclass
+from typing import Tuple, Dict, Any
 
 
-class Vehicle:
-    """
-    2D vehicle with basic physics simulation.
+@dataclass
+class CarState:
+    """Immutable state snapshot of the car."""
+    x: float
+    y: float
+    theta: float  # heading angle in radians [0, 2π)
+    v: float     # forward velocity in units/s
     
-    Attributes:
-        position: (x, y) in meters
-        velocity: (vx, vy) in m/s
-        heading: angle in radians (0 = east, π/2 = north)
-        speed: scalar speed in m/s
-    """
-    
-    def __init__(self, x=10.0, y=10.0, heading=0.0):
-        """Initialize vehicle at given position and heading"""
-        self.position = [x, y]
-        self.velocity = [0.0, 0.0]
-        self.heading = heading
-        self.speed = 0.0
-        self.radius = PHYSICS_CONFIG['vehicle_radius']
-        
-        # Physics parameters
-        self.max_acceleration = PHYSICS_CONFIG['acceleration']
-        self.max_brake = PHYSICS_CONFIG['brake_deceleration']
-        self.friction = PHYSICS_CONFIG['friction']
-        
-        # Collision tracking
-        self.collision_count = 0
-        self.in_collision = False
-    
-    def apply_control(self, control_output, dt, max_speed):
-        """
-        Apply control commands to update vehicle physics.
-        
-        Args:
-            control_output (dict): {throttle, steering, brake}
-            dt (float): Time step in seconds
-            max_speed (float): Maximum allowed speed
-        """
-        throttle = control_output.get('throttle', 0.0)
-        steering = control_output.get('steering', 0.0)
-        brake = control_output.get('brake', 0.0)
-        
-        # Calculate acceleration
-        if brake > 0:
-            # Braking
-            accel = -self.max_brake * brake
-        else:
-            # Throttle (positive or negative for reverse)
-            accel = self.max_acceleration * throttle
-        
-        # Apply friction
-        if abs(self.speed) > 0.01:
-            friction_force = -self.friction * (self.speed / abs(self.speed))
-        else:
-            friction_force = 0
-            if abs(accel) < self.friction:
-                accel = 0
-        
-        # Update speed
-        self.speed += (accel + friction_force) * dt
-        self.speed = max(-max_speed * 0.5, min(self.speed, max_speed))
-        
-        # Update heading based on steering (only when moving)
-        if abs(self.speed) > 0.1:
-            turn_rate = steering * 2.0  # radians per second
-            self.heading += turn_rate * dt
-            self.heading = self._normalize_angle(self.heading)
-        
-        # Update velocity components
-        self.velocity[0] = self.speed * math.cos(self.heading)
-        self.velocity[1] = self.speed * math.sin(self.heading)
-        
-        # Update position
-        self.position[0] += self.velocity[0] * dt
-        self.position[1] += self.velocity[1] * dt
-        
-        # Boundary checking
-        self._enforce_boundaries()
-    
-    def _normalize_angle(self, angle):
-        """Normalize angle to [0, 2π]"""
-        while angle < 0:
-            angle += 2 * math.pi
-        while angle >= 2 * math.pi:
-            angle -= 2 * math.pi
-        return angle
-    
-    def _enforce_boundaries(self):
-        """Keep vehicle within world bounds"""
-        max_x = PHYSICS_CONFIG['world_width']
-        max_y = PHYSICS_CONFIG['world_height']
-        
-        self.position[0] = max(self.radius, min(self.position[0], max_x - self.radius))
-        self.position[1] = max(self.radius, min(self.position[1], max_y - self.radius))
-    
-    def check_collision(self, obstacles):
-        """
-        Check for collisions with obstacles.
-        
-        Args:
-            obstacles (list): List of obstacle dictionaries
-        
-        Returns:
-            bool: True if collision detected
-        """
-        was_in_collision = self.in_collision
-        self.in_collision = False
-        
-        for obstacle in obstacles:
-            ox, oy = obstacle['pos']
-            obstacle_radius = obstacle.get('radius', 0.5)
-            
-            dx = self.position[0] - ox
-            dy = self.position[1] - oy
-            distance = math.sqrt(dx*dx + dy*dy)
-            
-            if distance < (self.radius + obstacle_radius):
-                self.in_collision = True
-                if not was_in_collision:
-                    self.collision_count += 1
-                return True
-        
-        return False
-    
-    def get_state(self):
-        """Get current vehicle state"""
+    def to_dict(self) -> Dict[str, float]:
         return {
-            'position': tuple(self.position),
-            'velocity': tuple(self.velocity),
-            'heading': self.heading,
-            'speed': self.speed,
-            'collisions': self.collision_count,
+            'x': self.x,
+            'y': self.y,
+            'theta': self.theta,
+            'v': self.v
         }
 
 
+class Car:
+    """
+    Kinematic car model with friction and boundary handling.
+    
+    Coordinate system:
+    - Origin (0, 0) at bottom-left
+    - X increases rightward
+    - Y increases upward
+    - Theta: 0 = rightward (+X), π/2 = upward (+Y), π = leftward, 3π/2 = downward
+    """
+    
+    def __init__(self, x: float, y: float, theta: float, config: Dict[str, Any]):
+        """
+        Initialize car at position (x, y) with heading theta.
+        
+        Args:
+            x, y: initial position
+            theta: initial heading in radians
+            config: dict with keys:
+                - max_forward_speed
+                - max_reverse_speed
+                - acceleration
+                - friction
+                - turn_rate_per_second
+                - car_radius
+                - width, height (for boundary, or world_width/world_height)
+        """
+        self.x = x
+        self.y = y
+        self.theta = theta
+        self.v = 0.0  # velocity (forward if positive)
+        
+        # Physics parameters
+        self.max_forward_speed = config['max_forward_speed']
+        self.max_reverse_speed = config['max_reverse_speed']
+        self.acceleration = config['acceleration']
+        self.friction = config['friction']
+        self.turn_rate = config['turn_rate_per_second']  # rad/s
+        self.car_radius = config['car_radius']
+        # Handle both 'width'/'height' and 'world_width'/'world_height'
+        self.world_width = config.get('world_width', config.get('width', 500))
+        self.world_height = config.get('world_height', config.get('height', 500))
+        
+        self.collision_count = 0
+    
+    def accelerate(self, magnitude: float) -> None:
+        """
+        Apply throttle/acceleration.
+        
+        Args:
+            magnitude: 1.0 = max forward accel, -1.0 = max reverse accel
+        """
+        self.v += self.acceleration * magnitude
+        # Clamp to max speeds
+        if self.v > 0:
+            self.v = min(self.v, self.max_forward_speed)
+        else:
+            self.v = max(self.v, -self.max_reverse_speed)
+    
+    def brake(self) -> None:
+        """Immediate stop (zero velocity)."""
+        self.v = 0.0
+    
+    def turn(self, direction: float) -> None:
+        """
+        Change heading (turn left/right).
+        
+        Args:
+            direction: 1.0 = max left turn, -1.0 = max right turn
+        """
+        self.theta += self.turn_rate * direction
+        # Normalize theta to [0, 2π)
+        self.theta = self.theta % (2 * math.pi)
+    
+    def update(self, dt: float) -> None:
+        """
+        Update car state: kinematics + friction + boundaries.
+        
+        Args:
+            dt: time step in seconds (typically 0.1)
+        """
+        # Kinematics: update position based on velocity and heading
+        self.x += self.v * math.cos(self.theta) * dt
+        self.y += self.v * math.sin(self.theta) * dt
+        
+        # Apply friction
+        self.v *= (1.0 - self.friction * dt)
+        
+        # Boundary conditions: bounce off walls
+        self._handle_boundaries()
+    
+    def _handle_boundaries(self) -> None:
+        """Bounce car off world boundaries, flipping both velocity and heading."""
+        # Left/Right walls: flip velocity and heading angle (reflect across vertical axis)
+        if self.x - self.car_radius < 0:
+            self.x = self.car_radius
+            self.v *= -0.5  # Inelastic bounce
+            self.theta = (math.pi - self.theta) % (2 * math.pi)  # Reflect heading
+        elif self.x + self.car_radius > self.world_width:
+            self.x = self.world_width - self.car_radius
+            self.v *= -0.5
+            self.theta = (math.pi - self.theta) % (2 * math.pi)  # Reflect heading
+        
+        # Top/Bottom walls: flip velocity and heading angle (reflect across horizontal axis)
+        if self.y - self.car_radius < 0:
+            self.y = self.car_radius
+            self.v *= -0.5
+            self.theta = (2 * math.pi - self.theta) % (2 * math.pi)  # Reflect heading
+        elif self.y + self.car_radius > self.world_height:
+            self.y = self.world_height - self.car_radius
+            self.v *= -0.5
+            self.theta = (2 * math.pi - self.theta) % (2 * math.pi)  # Reflect heading
+    
+    def get_state(self) -> CarState:
+        """Return current state."""
+        return CarState(self.x, self.y, self.theta, self.v)
+    
+    def get_position(self) -> Tuple[float, float]:
+        """Return (x, y) position."""
+        return (self.x, self.y)
+    
+    def get_heading(self) -> float:
+        """Return heading angle in radians."""
+        return self.theta
+    
+    def get_velocity(self) -> float:
+        """Return forward velocity."""
+        return self.v
+    
+    def increment_collision(self) -> None:
+        """Called when collision is detected."""
+        self.collision_count += 1
+    
+    def reset_collisions(self) -> None:
+        """Reset collision counter."""
+        self.collision_count = 0
+    
+    def __repr__(self) -> str:
+        return f"Car(x={self.x:.1f}, y={self.y:.1f}, θ={self.theta:.2f}, v={self.v:.1f})"
+
+
+# ============================================================================
+# ENVIRONMENT CLASS for ALU Backend Compatibility
+# ============================================================================
 class Environment:
     """
     Simulates the physical environment with obstacles.
+    Used by ALU backend for scenario simulation.
     """
     
-    def __init__(self, scenario='random'):
-        """
-        Initialize environment with obstacles.
-        
-        Args:
-            scenario (str): Obstacle layout - 'random', 'corridor', 'intersection', 'dense'
-        """
-        self.scenario = scenario
+    def __init__(self, scenario='random', world_width=500, world_height=500):
+        """Initialize environment with obstacles from scenario"""
+        self.world_width = world_width
+        self.world_height = world_height
         self.obstacles = []
-        self.world_width = PHYSICS_CONFIG['world_width']
-        self.world_height = PHYSICS_CONFIG['world_height']
-        
         self._generate_obstacles(scenario)
     
     def _generate_obstacles(self, scenario):
         """Generate obstacles based on scenario type"""
         if scenario == 'corridor':
-            # Narrow corridor with obstacles
-            for i in range(5):
-                # Left wall obstacles
-                self.obstacles.append({
-                    'pos': (5 + i * 2, 5),
-                    'radius': 0.8,
-                })
-                # Right wall obstacles
-                self.obstacles.append({
-                    'pos': (5 + i * 2, 15),
-                    'radius': 0.8,
-                })
-        
-        elif scenario == 'intersection':
-            # T-intersection layout
-            # Vertical road obstacles
-            for y in range(5, 16, 2):
-                self.obstacles.append({'pos': (8, y), 'radius': 0.7})
-                self.obstacles.append({'pos': (12, y), 'radius': 0.7})
-            
-            # Horizontal road obstacles
-            for x in range(5, 16, 2):
-                self.obstacles.append({'pos': (x, 8), 'radius': 0.7})
-                self.obstacles.append({'pos': (x, 12), 'radius': 0.7})
-        
-        elif scenario == 'dense':
-            # Dense random obstacles
-            for _ in range(20):
-                self.obstacles.append({
-                    'pos': (random.uniform(3, 17), random.uniform(3, 17)),
-                    'radius': random.uniform(0.3, 0.8),
-                })
-        
+            # Narrow corridor with obstacles on sides
+            self.obstacles = [
+                {'pos': (100, 150), 'radius': 30},
+                {'pos': (200, 350), 'radius': 30},
+                {'pos': (300, 150), 'radius': 30},
+                {'pos': (400, 350), 'radius': 30},
+            ]
         elif scenario == 'random':
-            # Sparse random obstacles
-            for _ in range(8):
-                self.obstacles.append({
-                    'pos': (random.uniform(3, 17), random.uniform(3, 17)),
-                    'radius': random.uniform(0.4, 1.0),
-                })
-        
-        elif scenario == 'empty':
-            # No obstacles - for testing cruise mode
-            pass
+            # Random obstacle placement
+            import random
+            self.obstacles = [
+                {'pos': (random.randint(50, 450), random.randint(50, 450)), 'radius': 25}
+                for _ in range(6)
+            ]
+        elif scenario == 'intersection':
+            # 4-way intersection
+            self.obstacles = [
+                {'pos': (250, 100), 'radius': 30},
+                {'pos': (150, 250), 'radius': 30},
+                {'pos': (350, 250), 'radius': 30},
+                {'pos': (250, 400), 'radius': 30},
+            ]
+        elif scenario == 'dense':
+            # Heavy obstacle density
+            import random
+            self.obstacles = [
+                {'pos': (random.randint(50, 450), random.randint(50, 450)), 'radius': 20}
+                for _ in range(14)
+            ]
+        else:
+            # Default empty
+            self.obstacles = []
     
     def get_obstacles(self):
-        """Get all obstacles in environment"""
+        """Return list of obstacles"""
         return self.obstacles
     
-    def add_obstacle(self, x, y, radius=0.5):
-        """Dynamically add an obstacle"""
+    def add_obstacle(self, x, y, radius=20):
+        """Add an obstacle to the environment"""
         self.obstacles.append({'pos': (x, y), 'radius': radius})
     
     def remove_obstacle(self, index):
         """Remove obstacle by index"""
         if 0 <= index < len(self.obstacles):
             self.obstacles.pop(index)
+
+
+# ============================================================================
+# BACKWARD COMPATIBILITY ALIASES
+# ============================================================================
+# For ALU backend that imports Vehicle instead of Car
+Vehicle = Car
+

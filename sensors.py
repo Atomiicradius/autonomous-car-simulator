@@ -1,152 +1,261 @@
 """
-Sensor Subsystem Module
-Author: ALU Engineer (Person 2)
-
-Simulates proximity sensors for obstacle detection.
-Implements 4-sensor array: Front-Left, Front-Right, Back-Left, Back-Right
+Virtual sensor system for autonomous vehicle simulator.
+Implements raycast-based proximity sensing with optional noise and filtering.
 """
 
 import math
 import random
-from config import SENSOR_CONFIG
+from dataclasses import dataclass, field
+from typing import List, Tuple, Dict, Any
+from collections import deque
 
 
-class ProximitySensor:
-    """Individual proximity sensor with configurable range and angle"""
-    
-    def __init__(self, name, angle, max_range=10.0, field_of_view=60):
-        """
-        Initialize a proximity sensor.
-        
-        Args:
-            name (str): Sensor identifier (FL, FR, BL, BR)
-            angle (float): Sensor orientation in degrees (0 = forward)
-            max_range (float): Maximum detection range in meters
-            field_of_view (float): Sensor's field of view in degrees
-        """
-        self.name = name
-        self.angle = math.radians(angle)  # Convert to radians
-        self.max_range = max_range
-        self.fov = math.radians(field_of_view)
-        self.last_reading = max_range
-    
-    def detect_obstacles(self, vehicle_pos, vehicle_heading, obstacles):
-        """
-        Detect nearest obstacle within sensor's field of view.
-        
-        Args:
-            vehicle_pos (tuple): (x, y) vehicle position
-            vehicle_heading (float): Vehicle heading in radians
-            obstacles (list): List of obstacle objects with position and radius
-        
-        Returns:
-            float: Distance to nearest obstacle (max_range if none detected)
-        """
-        vx, vy = vehicle_pos
-        
-        # Absolute sensor angle (vehicle heading + sensor offset)
-        sensor_angle = vehicle_heading + self.angle
-        
-        min_distance = self.max_range
-        
-        for obstacle in obstacles:
-            ox, oy = obstacle['pos']
-            obstacle_radius = obstacle.get('radius', 0.5)
-            
-            # Vector from vehicle to obstacle
-            dx = ox - vx
-            dy = oy - vy
-            distance = math.sqrt(dx*dx + dy*dy) - obstacle_radius
-            
-            # Angle to obstacle
-            angle_to_obstacle = math.atan2(dy, dx)
-            
-            # Angular difference between sensor direction and obstacle
-            angle_diff = self._normalize_angle(angle_to_obstacle - sensor_angle)
-            
-            # Check if obstacle is within field of view
-            if abs(angle_diff) <= self.fov / 2:
-                if distance < min_distance:
-                    min_distance = distance
-        
-        # Add sensor noise for realism
-        noise = random.gauss(0, SENSOR_CONFIG['noise_factor'] * min_distance)
-        min_distance = max(0.0, min(min_distance + noise, self.max_range))
-        
-        self.last_reading = min_distance
-        return min_distance
-    
-    def _normalize_angle(self, angle):
-        """Normalize angle to [-pi, pi]"""
-        while angle > math.pi:
-            angle -= 2 * math.pi
-        while angle < -math.pi:
-            angle += 2 * math.pi
-        return angle
+@dataclass
+class SensorReading:
+    """A single sensor reading with raw and filtered values."""
+    sensor_name: str
+    raw_distance: float
+    filtered_distance: float
+    timestamp: float
 
 
 class SensorArray:
     """
-    4-Sensor proximity array for autonomous vehicle.
+    4-sensor array (FL, FR, BL, BR) with raycast-based distance measurement.
     
-    Sensor Layout:
-    - FL (Front-Left): 45° left of center
-    - FR (Front-Right): 45° right of center
-    - BL (Back-Left): 135° left of center
-    - BR (Back-Right): 135° right of center
+    Sensors are positioned relative to car:
+    - FL (Front-Left):  45° relative to heading
+    - FR (Front-Right): -45° relative to heading
+    - BL (Back-Left):   135° relative to heading
+    - BR (Back-Right):  -135° relative to heading
     """
     
-    def __init__(self):
-        """Initialize all four proximity sensors"""
-        max_range = SENSOR_CONFIG['max_range']
-        fov = SENSOR_CONFIG['field_of_view']
-        angles = SENSOR_CONFIG['sensor_angles']
-        
-        self.sensors = {
-            'FL': ProximitySensor('FL', angles['FL'], max_range, fov),
-            'FR': ProximitySensor('FR', angles['FR'], max_range, fov),
-            'BL': ProximitySensor('BL', angles['BL'], max_range, fov),
-            'BR': ProximitySensor('BR', angles['BR'], max_range, fov),
-        }
-    
-    def scan(self, vehicle_pos, vehicle_heading, obstacles):
+    def __init__(self, config: Dict[str, Any], car_radius: float):
         """
-        Perform a complete sensor scan of all obstacles.
+        Initialize sensor array.
         
         Args:
-            vehicle_pos (tuple): (x, y) vehicle position
-            vehicle_heading (float): Vehicle heading in radians
-            obstacles (list): List of obstacles in environment
+            config: dict with keys:
+                - max_range: max raycast distance
+                - cone_angle: cone width in degrees (unused for now, for future enhancement)
+                - positions: list of dicts with 'name' and 'angle_offset'
+                - noise_std: Gaussian noise std dev (0 = no noise)
+                - filter_size: moving average window size
+            car_radius: radius of car (sensors positioned at edge)
+        """
+        self.max_range = config['max_range']
+        self.cone_angle = config['cone_angle']
+        self.car_radius = car_radius
+        self.noise_std = config.get('noise_std', 0.0)
+        self.filter_size = config.get('filter_size', 5)
+        
+        # Parse sensor positions from config
+        self.sensor_offsets: Dict[str, float] = {}  # name -> angle_offset (radians)
+        for sensor_cfg in config.get('positions', []):
+            name = sensor_cfg['name']
+            angle_deg = sensor_cfg['angle_offset']
+            angle_rad = math.radians(angle_deg)
+            self.sensor_offsets[name] = angle_rad
+        
+        # History for moving average filter (name -> deque of readings)
+        self.filter_history: Dict[str, deque] = {
+            name: deque(maxlen=self.filter_size)
+            for name in self.sensor_offsets.keys()
+        }
+        
+        # Latest readings
+        self.latest_readings: Dict[str, SensorReading] = {}
+        self.timestamp = 0.0
+        self.noise_enabled = False
+        self.filter_enabled = False
+    
+    def set_noise_enabled(self, enabled: bool) -> None:
+        """Enable/disable noise injection."""
+        self.noise_enabled = enabled
+    
+    def set_filter_enabled(self, enabled: bool) -> None:
+        """Enable/disable moving average filter."""
+        self.filter_enabled = enabled
+    
+    def raycast(
+        self,
+        car_x: float,
+        car_y: float,
+        car_theta: float,
+        obstacles: List[Tuple[float, float, float]]
+    ) -> Dict[str, float]:
+        """
+        Perform raycast from car position to all obstacles.
+        
+        Args:
+            car_x, car_y: car center position
+            car_theta: car heading (radians)
+            obstacles: list of (obs_x, obs_y, obs_radius) tuples
         
         Returns:
-            dict: Sensor readings {FL: distance, FR: distance, ...}
+            dict mapping sensor name -> distance to nearest obstacle
         """
         readings = {}
-        for name, sensor in self.sensors.items():
-            readings[name] = sensor.detect_obstacles(
-                vehicle_pos, vehicle_heading, obstacles
-            )
+        
+        for sensor_name, angle_offset in self.sensor_offsets.items():
+            # Sensor ray direction (absolute heading)
+            ray_angle = car_theta + angle_offset
+            ray_dx = math.cos(ray_angle)
+            ray_dy = math.sin(ray_angle)
+            
+            # Find nearest obstacle hit by this ray
+            min_distance = self.max_range
+            
+            for obs_x, obs_y, obs_radius in obstacles:
+                dist = self._raycast_circle(
+                    car_x, car_y, ray_dx, ray_dy,
+                    obs_x, obs_y, obs_radius
+                )
+                
+                if dist < min_distance:
+                    min_distance = dist
+            
+            readings[sensor_name] = min_distance
+        
         return readings
     
-    def get_sensor_rays(self, vehicle_pos, vehicle_heading):
+    def _raycast_circle(
+        self,
+        ray_start_x: float,
+        ray_start_y: float,
+        ray_dx: float,
+        ray_dy: float,
+        circle_x: float,
+        circle_y: float,
+        circle_radius: float
+    ) -> float:
         """
-        Get visualization data for sensor rays.
+        Check if ray hits circle and return distance to hit point.
+        
+        Ray parametric form: p(t) = (start_x, start_y) + t * (dx, dy)
+        Circle: (x - circle_x)^2 + (y - circle_y)^2 = r^2
+        
+        Substitute ray into circle equation and solve for t.
         
         Returns:
-            list: List of sensor ray endpoints for visualization
+            distance to intersection (self.max_range if no hit)
         """
-        rays = []
-        for name, sensor in self.sensors.items():
-            sensor_angle = vehicle_heading + sensor.angle
-            endpoint_x = vehicle_pos[0] + sensor.last_reading * math.cos(sensor_angle)
-            endpoint_y = vehicle_pos[1] + sensor.last_reading * math.sin(sensor_angle)
-            
-            rays.append({
-                'name': name,
-                'start': vehicle_pos,
-                'end': (endpoint_x, endpoint_y),
-                'distance': sensor.last_reading,
-                'angle': sensor_angle,
-            })
+        # Vector from ray start to circle center
+        fx = ray_start_x - circle_x
+        fy = ray_start_y - circle_y
         
-        return rays
+        # Quadratic equation: (dx*t + fx)^2 + (dy*t + fy)^2 = r^2
+        a = ray_dx * ray_dx + ray_dy * ray_dy
+        
+        # Guard against degenerate ray (zero-length direction vector)
+        if a < 1e-9:
+            return self.max_range
+        
+        b = 2.0 * (fx * ray_dx + fy * ray_dy)
+        c = fx * fx + fy * fy - circle_radius * circle_radius
+        
+        discriminant = b * b - 4 * a * c
+        
+        # No intersection
+        if discriminant < 0:
+            return self.max_range
+        
+        # Solve for t
+        sqrt_disc = math.sqrt(discriminant)
+        t1 = (-b - sqrt_disc) / (2 * a)
+        t2 = (-b + sqrt_disc) / (2 * a)
+        
+        # Find closest intersection in front of ray (t > 0)
+        valid_t = [t for t in [t1, t2] if t > 0.01]  # 0.01 to avoid self-collision
+        
+        if not valid_t:
+            return self.max_range
+        
+        closest_t = min(valid_t)
+        distance = closest_t
+        
+        # Clamp to max range
+        return min(distance, self.max_range)
+    
+    def update(
+        self,
+        car_x: float,
+        car_y: float,
+        car_theta: float,
+        obstacles: List[Tuple[float, float, float]],
+        timestamp: float = None
+    ) -> Dict[str, float]:
+        """
+        Update all sensors in one call.
+        
+        Args:
+            car_x, car_y: car position
+            car_theta: car heading
+            obstacles: list of (x, y, radius) tuples
+            timestamp: optional timestamp for logging
+        
+        Returns:
+            dict mapping sensor name -> filtered distance
+        """
+        self.timestamp = timestamp or self.timestamp + 0.1
+        
+        # Raycast to get raw distances
+        raw_distances = self.raycast(car_x, car_y, car_theta, obstacles)
+        
+        filtered_distances = {}
+        
+        for sensor_name, raw_dist in raw_distances.items():
+            # Apply noise if enabled
+            if self.noise_enabled and self.noise_std > 0:
+                noisy_dist = raw_dist + random.gauss(0, self.noise_std)
+                # Clamp to valid range
+                noisy_dist = max(0, min(noisy_dist, self.max_range))
+            else:
+                noisy_dist = raw_dist
+            
+            # Apply filter if enabled
+            if self.filter_enabled:
+                self.filter_history[sensor_name].append(noisy_dist)
+                filtered_dist = sum(self.filter_history[sensor_name]) / len(self.filter_history[sensor_name])
+            else:
+                filtered_dist = noisy_dist
+            
+            # Store reading
+            reading = SensorReading(
+                sensor_name=sensor_name,
+                raw_distance=raw_dist,
+                filtered_distance=filtered_dist,
+                timestamp=self.timestamp
+            )
+            self.latest_readings[sensor_name] = reading
+            filtered_distances[sensor_name] = filtered_dist
+        
+        return filtered_distances
+    
+    def get_all_readings(self) -> Dict[str, SensorReading]:
+        """Return all latest readings."""
+        return self.latest_readings
+    
+    def get_sensor_readings_dict(self, raw: bool = False) -> Dict[str, float]:
+        """
+        Get all sensor values as simple dict.
+        
+        Args:
+            raw: if True, return raw distances; else return filtered
+        
+        Returns:
+            dict mapping sensor name -> distance
+        """
+        result = {}
+        for name, reading in self.latest_readings.items():
+            result[name] = reading.raw_distance if raw else reading.filtered_distance
+        return result
+    
+    def reset_filters(self) -> None:
+        """Clear filter history (for new scenario/reset)."""
+        for history in self.filter_history.values():
+            history.clear()
+    
+    def __repr__(self) -> str:
+        readings = self.get_sensor_readings_dict(raw=False)
+        return f"SensorArray({readings})"
