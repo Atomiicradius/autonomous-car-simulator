@@ -206,19 +206,18 @@ class AutonomousVehicleController:
         obstacles = []
         for obs in self.environment.get_obstacles():
             obstacles.append({
-                'x': obs['pos'][0],
-                'y': obs['pos'][1],
+                'pos': obs['pos'],
                 'radius': obs['radius']
             })
         
         # Get vehicle state
         vehicle_state_obj = self.vehicle.get_state()
         vehicle = {
-            'x': self.vehicle.x,
-            'y': self.vehicle.y,
+            'position': (self.vehicle.x, self.vehicle.y),
             'heading': self.vehicle.theta,
             'speed': self.vehicle.v,
-            'radius': self.vehicle.car_radius
+            'radius': self.vehicle.car_radius,
+            'collisions': self.vehicle.collision_count
         }
         
         # Generate sensor rays for visualization
