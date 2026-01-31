@@ -143,12 +143,6 @@ class ALUDecisionEngine:
         ttc_threshold = self.config['ttc_threshold']
         
         # =====================================================================
-        # EMERGENCY TTC CHECK - Highest Priority
-        # =====================================================================
-        if self.ttc < ttc_threshold and current_speed > 0.5:
-            return VehicleState.EMERGENCY_BRAKE
-        
-        # =====================================================================
         # FSM STATE TRANSITIONS
         # =====================================================================
         
@@ -204,12 +198,15 @@ class ALUDecisionEngine:
                 # Both sides blocked
                 if FL < danger_threshold and FR < danger_threshold:
                     return VehicleState.EMERGENCY_BRAKE
-                # Left side blocked more
+                # Left side blocked more - avoid right
                 elif FL < FR:
                     return VehicleState.AVOID_RIGHT
-                # Right side blocked more
+                # Right side blocked more - avoid left
                 else:
                     return VehicleState.AVOID_LEFT
+            # Apply TTC emergency brake if approaching collision
+            elif self.ttc < ttc_threshold and current_speed > 0.5:
+                return VehicleState.EMERGENCY_BRAKE
             else:
                 return VehicleState.CRUISE
     
