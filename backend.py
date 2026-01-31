@@ -12,7 +12,7 @@ from datetime import datetime
 from alu_decision import ALUDecisionEngine
 from sensors import SensorArray
 from physics import Vehicle, Environment
-from config import CONTROL_CONFIG, DRIVING_MODES
+from config import CONTROL_CONFIG, DRIVING_MODES, PHYSICS_CONFIG
 
 
 class AutonomousVehicleController:
@@ -33,10 +33,22 @@ class AutonomousVehicleController:
         self.scenario = scenario
         self.test_mode = test_mode
 
+        # Load configuration
+        with open('config.json', 'r') as f:
+            config = json.load(f)
+        
+        car_config = config['car']
+        sensor_config = config['sensors']
+
         # Initialize subsystems
         self.alu = ALUDecisionEngine(mode=mode)
-        self.sensors = SensorArray()
-        self.vehicle = Vehicle(x=10.0, y=10.0, heading=0.0)
+        self.sensors = SensorArray(config=sensor_config, car_radius=car_config['car_radius'])
+        self.vehicle = Vehicle(
+            x=car_config['start_x'],
+            y=car_config['start_y'],
+            theta=car_config['start_theta'],
+            config=config
+        )
         self.environment = Environment(scenario=scenario)
 
         # Control timing
@@ -57,18 +69,43 @@ class AutonomousVehicleController:
     def run_cycle(self):
         """Execute one control cycle"""
 
-        sensor_readings = self.sensors.scan(
-            self.vehicle.position,
-            self.vehicle.heading,
-            self.environment.get_obstacles()
+        # Get obstacles in the format expected by raycast (tuples of x, y, radius)
+        obstacles = []
+        for obs in self.environment.get_obstacles():
+            obs_x = obs['pos'][0]
+            obs_y = obs['pos'][1]
+            obs_radius = obs['radius']
+            obstacles.append((obs_x, obs_y, obs_radius))
+
+        # Get sensor readings using raycast
+        sensor_readings = self.sensors.raycast(
+            self.vehicle.x,
+            self.vehicle.y,
+            self.vehicle.theta,
+            obstacles
         )
 
         max_speed = DRIVING_MODES[self.mode]['max_speed']
         state = self.alu.update_state(sensor_readings, self.vehicle.speed)
         control_output = self.alu.get_control_output(state)
 
-        self.vehicle.apply_control(control_output, self.dt, max_speed)
-        collision = self.vehicle.check_collision(self.environment.get_obstacles())
+        self.vehicle.accelerate(control_output.get('throttle', 0), dt=self.dt, max_speed=max_speed)
+        self.vehicle.turn(control_output.get('steering', 0), dt=self.dt)
+        if control_output.get('brake', 0):
+            self.vehicle.brake()
+        
+        # Update vehicle state
+        self.vehicle.update(self.dt)
+        
+        # Check for collision
+        collision = False
+        car_radius = self.vehicle.car_radius
+        for obs_x, obs_y, obs_radius in obstacles:
+            dist_to_obs = ((self.vehicle.x - obs_x)**2 + (self.vehicle.y - obs_y)**2)**0.5
+            if dist_to_obs < car_radius + obs_radius:
+                collision = True
+                self.vehicle.increment_collision()
+                break
 
         telemetry = self._collect_telemetry(sensor_readings, state, collision)
         self.telemetry_log.append(telemetry)
