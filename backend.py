@@ -39,15 +39,22 @@ class AutonomousVehicleController:
         
         car_config = config['car']
         sensor_config = config['sensors']
+        world_config = config['world']
 
         # Initialize subsystems
         self.alu = ALUDecisionEngine(mode=mode)
         self.sensors = SensorArray(config=sensor_config, car_radius=car_config['car_radius'])
+        
+        # Create car config with all needed parameters
+        car_init_config = {
+            **car_config,
+            **world_config
+        }
         self.vehicle = Vehicle(
             x=car_config['start_x'],
             y=car_config['start_y'],
             theta=car_config['start_theta'],
-            config=config
+            config=car_init_config
         )
         self.environment = Environment(scenario=scenario)
 
@@ -86,7 +93,7 @@ class AutonomousVehicleController:
         )
 
         max_speed = DRIVING_MODES[self.mode]['max_speed']
-        state = self.alu.update_state(sensor_readings, self.vehicle.speed)
+        state = self.alu.update_state(sensor_readings, self.vehicle.v)
         control_output = self.alu.get_control_output(state)
 
         self.vehicle.accelerate(control_output.get('throttle', 0), dt=self.dt, max_speed=max_speed)
@@ -115,21 +122,26 @@ class AutonomousVehicleController:
         return telemetry
 
     def _collect_telemetry(self, sensor_readings, state, collision):
-        alu_metrics = self.alu.get_metrics()
-        vehicle_state = self.vehicle.get_state()
+        alu_metrics = self.alu.get_metrics() if hasattr(self.alu, 'get_metrics') else {
+            'hazard_score': self.alu.hazard_score,
+            'ttc': self.alu.ttc
+        }
+        
+        vehicle_state_obj = self.vehicle.get_state()
+        vehicle_state = vehicle_state_obj.to_dict()
 
         return {
             'cycle': self.cycle_count,
             'timestamp': time.time() - (self.start_time or time.time()),
             'state': state,
-            'position': vehicle_state['position'],
-            'speed': vehicle_state['speed'],
-            'heading': vehicle_state['heading'],
+            'position': (vehicle_state['x'], vehicle_state['y']),
+            'speed': vehicle_state['v'],
+            'heading': vehicle_state['theta'],
             'sensors': sensor_readings,
-            'hazard_score': alu_metrics['hazard_score'],
-            'ttc': alu_metrics['ttc'],
+            'hazard_score': alu_metrics.get('hazard_score', 0),
+            'ttc': alu_metrics.get('ttc', float('inf')),
             'collision': collision,
-            'total_collisions': vehicle_state['collisions'],
+            'total_collisions': self.vehicle.collision_count,
         }
 
     def _update_metrics(self, telemetry):
@@ -186,10 +198,6 @@ class AutonomousVehicleController:
         return {
             'vehicle': self.vehicle.get_state(),
             'obstacles': self.environment.get_obstacles(),
-            'sensor_rays': self.sensors.get_sensor_rays(
-                self.vehicle.position,
-                self.vehicle.heading
-            ),
             'alu_state': self.alu.current_state,
             'alu_metrics': self.alu.get_metrics(),
         }
