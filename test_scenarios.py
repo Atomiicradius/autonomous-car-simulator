@@ -51,15 +51,19 @@ class ALUTestSuite:
         self.assert_test(state == VehicleState.EMERGENCY_BRAKE,
                         "Both front sensors blocked → EMERGENCY_BRAKE")
         
-        # Test 3: Left obstacle only - should avoid right
-        sensors = {'FL': 1.0, 'FR': 10.0, 'BL': 10.0, 'BR': 10.0}
-        state = alu.determine_next_state(sensors, current_speed=2.0)
+        # Test 3: Left obstacle only - should avoid right (fresh ALU to avoid state carryover)
+        # Using 1.8m distance at 0.5 m/s -> TTC = 3.6s > 2.0s threshold (no TTC trigger)
+        alu3 = ALUDecisionEngine(mode='normal')
+        sensors = {'FL': 1.8, 'FR': 10.0, 'BL': 10.0, 'BR': 10.0}
+        state = alu3.determine_next_state(sensors, current_speed=0.5)
         self.assert_test(state == VehicleState.AVOID_RIGHT,
                         "Left obstacle → AVOID_RIGHT")
         
-        # Test 4: Right obstacle only - should avoid left
-        sensors = {'FL': 10.0, 'FR': 1.0, 'BL': 10.0, 'BR': 10.0}
-        state = alu.determine_next_state(sensors, current_speed=2.0)
+        # Test 4: Right obstacle only - should avoid left (fresh ALU to avoid state carryover)
+        # Using 1.8m distance at 0.5 m/s -> TTC = 3.6s > 2.0s threshold (no TTC trigger)
+        alu4 = ALUDecisionEngine(mode='normal')
+        sensors = {'FL': 10.0, 'FR': 1.8, 'BL': 10.0, 'BR': 10.0}
+        state = alu4.determine_next_state(sensors, current_speed=0.5)
         self.assert_test(state == VehicleState.AVOID_LEFT,
                         "Right obstacle → AVOID_LEFT")
         

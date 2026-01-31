@@ -29,15 +29,19 @@ def test_fsm_transitions():
     print(f"✓ Both front blocked -> {state} (expected: EMERGENCY_BRAKE)")
     assert state == VehicleState.EMERGENCY_BRAKE
     
-    # Test 3: Left blocked -> AVOID_RIGHT
-    sensors = {'FL': 1.0, 'FR': 10.0, 'BL': 10.0, 'BR': 10.0}
-    state = alu.determine_next_state(sensors, current_speed=2.0)
+    # Test 3: Left blocked -> AVOID_RIGHT (fresh ALU to avoid state carryover)
+    # Using 1.8m distance at 0.5 m/s -> TTC = 3.6s > 2.0s threshold (no TTC trigger)
+    alu3 = ALUDecisionEngine(mode='normal')
+    sensors = {'FL': 1.8, 'FR': 10.0, 'BL': 10.0, 'BR': 10.0}
+    state = alu3.determine_next_state(sensors, current_speed=0.5)
     print(f"✓ Left blocked -> {state} (expected: AVOID_RIGHT)")
     assert state == VehicleState.AVOID_RIGHT
     
-    # Test 4: Right blocked -> AVOID_LEFT
-    sensors = {'FL': 10.0, 'FR': 1.0, 'BL': 10.0, 'BR': 10.0}
-    state = alu.determine_next_state(sensors, current_speed=2.0)
+    # Test 4: Right blocked -> AVOID_LEFT (fresh ALU to avoid state carryover)
+    # Using 1.8m distance at 0.5 m/s -> TTC = 3.6s > 2.0s threshold (no TTC trigger)
+    alu4 = ALUDecisionEngine(mode='normal')
+    sensors = {'FL': 10.0, 'FR': 1.8, 'BL': 10.0, 'BR': 10.0}
+    state = alu4.determine_next_state(sensors, current_speed=0.5)
     print(f"✓ Right blocked -> {state} (expected: AVOID_LEFT)")
     assert state == VehicleState.AVOID_LEFT
     
