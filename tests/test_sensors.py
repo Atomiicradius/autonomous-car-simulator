@@ -5,13 +5,14 @@ Tests raycast, noise injection, and moving average filtering.
 
 import math
 import json
+import sys
+import os
+
+# Add src folder to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+
 from sensors import SensorArray, SensorReading
-
-
-def load_config(filepath: str) -> dict:
-    """Load config from JSON file."""
-    with open(filepath, 'r') as f:
-        return json.load(f)
+from test_utils import load_config
 
 
 def test_sensor_initialization():

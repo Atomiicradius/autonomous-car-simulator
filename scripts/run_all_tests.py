@@ -6,6 +6,10 @@ Runs all 59 tests and reports results.
 
 import subprocess
 import sys
+import os
+
+# Change to parent directory (root) so relative paths work
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def run_test(test_file, description):
     """Run a test file and return pass/fail status"""
@@ -54,13 +58,13 @@ def main():
     print("Running 59 tests across 7 test files...\n")
     
     tests = [
-        ("test_physics.py", "Day 1 Physics Tests (12 tests)"),
-        ("test_sensors.py", "Day 2 Sensor Tests (14 tests)"),
-        ("test_integration.py", "Physics + Sensors Integration (4 tests)"),
-        ("test_adapter.py", "Obstacle Adapter Test (1 test)"),
-        ("test_alu_unit.py", "ALU Unit Tests (6 tests)"),
-        ("test_minimal.py", "ALU Minimal Tests (5 tests)"),
-        ("test_scenarios.py", "ALU Scenario Tests (18 tests)"),
+        ("tests/test_physics.py", "Day 1 Physics Tests (12 tests)"),
+        ("tests/test_sensors.py", "Day 2 Sensor Tests (14 tests)"),
+        ("tests/test_integration.py", "Physics + Sensors Integration (4 tests)"),
+        ("tests/test_adapter.py", "Obstacle Adapter Test (1 test)"),
+        ("tests/test_alu_unit.py", "ALU Unit Tests (6 tests)"),
+        ("tests/test_minimal.py", "ALU Minimal Tests (5 tests)"),
+        ("tests/test_scenarios.py", "ALU Scenario Tests (18 tests)"),
     ]
     
     results = {}

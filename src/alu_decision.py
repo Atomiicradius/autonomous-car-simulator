@@ -11,7 +11,22 @@ Core decision-making system implementing:
 """
 
 import math
-from config import VehicleState, DRIVING_MODES
+import sys
+import os
+
+# Add config folder to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'config'))
+
+try:
+    from config import VehicleState, DRIVING_MODES
+except ImportError:
+    # Fallback if config module can't be found
+    print("Warning: Could not import config module, using defaults")
+    DRIVING_MODES = {}
+    
+    class VehicleState:
+        """Default vehicle state class"""
+        pass
 
 
 class ALUDecisionEngine:

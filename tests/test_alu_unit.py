@@ -5,6 +5,13 @@ Author: ALU Engineer (Person 2)
 Quick validation tests without scenario simulations.
 """
 
+import sys
+import os
+
+# Add src and config folders to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'config'))
+
 from alu_decision import ALUDecisionEngine, VehicleState
 from config import DRIVING_MODES
 

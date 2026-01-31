@@ -5,7 +5,12 @@ Proves that physics + sensors + ALU all work together without GUI
 """
 
 import sys
+import os
 import json
+
+# Add src folder to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+
 from backend import AutonomousVehicleController
 
 def verify_integration():

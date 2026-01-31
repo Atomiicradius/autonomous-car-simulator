@@ -4,10 +4,17 @@ Demonstrates the clean integration point for Person 3 (Backend).
 """
 
 import json
+import sys
+import os
+
+# Add src folder to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+
 from obstacles import ObstacleManager
 from sensors import SensorArray
+from test_utils import load_config
 
-config = json.load(open('config.json'))
+config = load_config('config.json')
 
 # Create obstacle manager with obstacles
 obstacles = ObstacleManager(config['world'])

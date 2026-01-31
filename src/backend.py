@@ -8,12 +8,31 @@ Runs at 100ms control cycle (10 Hz).
 
 import time
 import json
+import sys
+import os
 from datetime import datetime
 from math import cos, sin
+
+# Add src folder to path for imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from alu_decision import ALUDecisionEngine
 from sensors import SensorArray
 from physics import Vehicle, Environment
-from config import CONTROL_CONFIG, DRIVING_MODES, PHYSICS_CONFIG
+
+# Try to import config from config folder if available
+try:
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'config'))
+    from config import CONTROL_CONFIG, DRIVING_MODES, PHYSICS_CONFIG
+except ImportError:
+    # Fallback to local config if it exists
+    try:
+        from config import CONTROL_CONFIG, DRIVING_MODES, PHYSICS_CONFIG
+    except ImportError:
+        # Define minimal defaults
+        CONTROL_CONFIG = {}
+        DRIVING_MODES = {}
+        PHYSICS_CONFIG = {}
 
 
 class AutonomousVehicleController:
@@ -35,8 +54,24 @@ class AutonomousVehicleController:
         self.test_mode = test_mode
 
         # Load configuration
-        with open('config.json', 'r') as f:
-            config = json.load(f)
+        # Try multiple paths to support different execution contexts
+        config_paths = [
+            'config.json',  # Root directory
+            '../config/config.json',  # From src/ directory
+            os.path.join(os.path.dirname(__file__), '..', 'config', 'config.json'),  # Absolute path
+        ]
+        
+        config = None
+        for path in config_paths:
+            try:
+                with open(path, 'r') as f:
+                    config = json.load(f)
+                    break
+            except FileNotFoundError:
+                continue
+        
+        if config is None:
+            raise FileNotFoundError("Could not find config.json in any expected location")
         
         car_config = config['car']
         sensor_config = config['sensors']
