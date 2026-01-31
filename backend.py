@@ -9,6 +9,7 @@ Runs at 100ms control cycle (10 Hz).
 import time
 import json
 from datetime import datetime
+from math import cos, sin
 from alu_decision import ALUDecisionEngine
 from sensors import SensorArray
 from physics import Vehicle, Environment
@@ -96,12 +97,17 @@ class AutonomousVehicleController:
         state = self.alu.update_state(sensor_readings, self.vehicle.v)
         control_output = self.alu.get_control_output(state)
 
-        self.vehicle.accelerate(control_output.get('throttle', 0), dt=self.dt, max_speed=max_speed)
-        self.vehicle.turn(control_output.get('steering', 0), dt=self.dt)
-        if control_output.get('brake', 0):
-            self.vehicle.brake()
+        # Apply control commands (Car API expects just magnitude/direction)
+        throttle = control_output.get('throttle', 0)
+        steering = control_output.get('steering', 0)
+        brake = control_output.get('brake', 0)
         
-        # Update vehicle state
+        if brake:
+            self.vehicle.brake()
+        else:
+            self.vehicle.accelerate(throttle)
+        
+        self.vehicle.turn(steering)
         self.vehicle.update(self.dt)
         
         # Check for collision
@@ -195,11 +201,53 @@ class AutonomousVehicleController:
             }, f, indent=2)
 
     def get_current_state(self):
+        """Get current state for visualization"""
+        # Convert obstacles to visualization format
+        obstacles = []
+        for obs in self.environment.get_obstacles():
+            obstacles.append({
+                'x': obs['pos'][0],
+                'y': obs['pos'][1],
+                'radius': obs['radius']
+            })
+        
+        # Get vehicle state
+        vehicle_state_obj = self.vehicle.get_state()
+        vehicle = {
+            'x': self.vehicle.x,
+            'y': self.vehicle.y,
+            'heading': self.vehicle.theta,
+            'speed': self.vehicle.v,
+            'radius': self.vehicle.car_radius
+        }
+        
+        # Generate sensor rays for visualization
+        sensor_rays = []
+        if hasattr(self.sensors, 'sensor_offsets'):
+            for sensor_name, angle_offset in self.sensors.sensor_offsets.items():
+                ray_angle = self.vehicle.theta + angle_offset
+                ray_end_x = self.vehicle.x + self.sensors.max_range * (cos(ray_angle))
+                ray_end_y = self.vehicle.y + self.sensors.max_range * (sin(ray_angle))
+                
+                sensor_rays.append({
+                    'name': sensor_name,
+                    'start': (self.vehicle.x, self.vehicle.y),
+                    'end': (ray_end_x, ray_end_y),
+                    'distance': 0  # Will be filled from sensor readings
+                })
+        
+        alu_metrics = self.alu.get_metrics() if hasattr(self.alu, 'get_metrics') else {
+            'hazard_score': self.alu.hazard_score,
+            'ttc': self.alu.ttc
+        }
+        
         return {
-            'vehicle': self.vehicle.get_state(),
-            'obstacles': self.environment.get_obstacles(),
+            'vehicle': vehicle,
+            'obstacles': obstacles,
+            'sensor_rays': sensor_rays,
             'alu_state': self.alu.current_state,
-            'alu_metrics': self.alu.get_metrics(),
+            'alu_metrics': alu_metrics,
+            'cycle': self.cycle_count
         }
 
 
